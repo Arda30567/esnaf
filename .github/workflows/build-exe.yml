@@ -1,0 +1,41 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Repo'yu çek
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Pip güncelle
+        run: python -m pip install --upgrade pip
+
+      - name: Gerekli paketleri kur
+        run: |
+          pip install pyinstaller
+          pip install reportlab
+
+      - name: EXE oluştur
+        run: |
+          pyinstaller ^
+            --onefile ^
+            --noconsole ^
+            --add-data "esnaf_defter.db;." ^
+            main.py
+
+      - name: EXE'yi artifact olarak yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: esnaf-defteri-exe
+          path: dist/main.exe
