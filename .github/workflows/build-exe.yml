@@ -2,7 +2,8 @@ name: Build Windows EXE
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -10,7 +11,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Repo'yu çek
+      - name: Repo'yu klonla
         uses: actions/checkout@v4
 
       - name: Python kur
@@ -27,14 +28,13 @@ jobs:
           pip install reportlab
 
       - name: EXE oluştur
-        run: |
-          pyinstaller ^
-            --onefile ^
-            --noconsole ^
-            --add-data "esnaf_defter.db;." ^
-            main.py
+        run: pyinstaller --onefile --noconsole --add-data "esnaf_defter.db;." main.py
 
       - name: EXE'yi artifact olarak yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: esnaf-defteri-exe
+          path: dist/main.exe      - name: EXE'yi artifact olarak yükle
         uses: actions/upload-artifact@v4
         with:
           name: esnaf-defteri-exe
