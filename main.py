@@ -1,6 +1,4 @@
-def main():
-    print("Hello from repl-nix-workspace!")
-
+from esnaf_defter import main
 
 if __name__ == "__main__":
     main()
