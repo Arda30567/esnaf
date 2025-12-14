@@ -9,7 +9,8 @@ Küçük esnaflar için basit, hızlı ve kullanılabilir muhasebe programı.
 Geliştirici: Python ile geliştirilmiştir
 Sürüm: 1.0
 """
-
+import sys
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 from datetime import datetime, date
@@ -26,7 +27,14 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 # Veritabanı dosyası
-DB_FILE = "esnaf_defter.db"
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+DB_FILE = resource_path("esnaf_defter.db")
 
 
 # ============================================================================
